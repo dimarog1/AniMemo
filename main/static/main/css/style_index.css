@@ -1,0 +1,42 @@
+html {
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    margin-bottom: 86px;
+}
+
+main {
+    padding: 30px 0 30px 0;
+}
+
+.container-md .row .card {
+    display: block;
+    width: 12rem;
+    padding: 0;
+    margin: 10px;
+    border: none;
+}
+
+.container-md .row .card img {
+    border-radius: 0;
+}
+
+.container-md .row .card .card-body a {
+    font-size: 13pt;
+    text-decoration: none;
+    color: black;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    height: 86px;
+    width: 100%;
+}
+
+footer i {
+    font-size: 15pt;
+}
