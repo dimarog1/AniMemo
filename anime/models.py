@@ -29,3 +29,8 @@ class Anime(models.Model):
     class Meta:
         verbose_name = 'Anime'
         verbose_name_plural = 'Animes'
+
+
+class AnimeAdd(models.Model):
+    title = models.CharField('Title', max_length=50, default='')
+    source = models.CharField('Source', max_length=50, default='')

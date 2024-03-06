@@ -1,0 +1,140 @@
+{% extends 'main/base_template.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block style_file %}{% static 'main/css/style_anime_info.css' %}{% endblock %}
+
+{% block content %}
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-xl-3 col-lg-4 col-md-5 col-sm-4 col-xs-4">
+            <img src="{{ anime.poster }}" width="250" height="350" alt="Not found" style="border: solid 2px #e0e0e0; border-radius: 5px">
+            <a href="{{ anime.animego }}" type="submit" class="btn btn-danger btn-block"
+               style="width: 250px; margin-top: 5px; background-color: #fd5b56; border-color: #fd5b56;">AnimeGo</a>
+            {% if anime.source %}
+                <a href="{{ anime.source }}" type="submit" class="btn btn-primary btn-block"
+                   style="width: 250px; margin-top: 5px; background-color: #247fff; border-color: #247fff">Источник</a>
+            {% endif %}
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-7 row-cols-sm-auto float-start">
+            <div class="row">
+                <div class="col">
+                    <i class="bi bi-star-fill"></i> <span class="rating">{{ anime.rating }}</span><span
+                        class="max_rating">/10</span>
+                </div>
+            </div>
+            <div class="row">
+                <h2 id="animeName">{{ anime.russian_title }}</h2>
+                <label for="animeName">{{ anime.english_title }}</label>
+            </div>
+            <div class="info" style="margin-top: 20px;">
+                {% if anime.anime_type %}
+                    <div class="row">
+                        <div class="col-md-4 name">
+                            Тип
+                        </div>
+                        <div class="col-md-8">
+                            {{ anime.anime_type }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if anime.episodes %}
+                    <div class="row">
+                        <div class="col-md-4 name">
+                            Эпизоды
+                        </div>
+                        <div class="col-md-8">
+                            {{ anime.episodes }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if anime.status %}
+                    <div class="row">
+                        <div class="col-md-4 name">
+                            Статус
+                        </div>
+                        <div class="col-md-8">
+                            {{ anime.status }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if anime.genre %}
+                    <div class="row">
+                        <div class="col-md-4 name">
+                            Жанр
+                        </div>
+                        <div class="col-md-8">
+                            {{ anime.genre }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if anime.release %}
+                    <div class="row">
+                        <div class="col-md-4 name">
+                            Выпуск
+                        </div>
+                        <div class="col-md-8">
+                            {{ anime.release }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if anime.studio %}
+                    <div class="row">
+                        <div class="col-md-4 name">
+                            Студия
+                        </div>
+                        <div class="col-md-8">
+                            {{ anime.studio }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if anime.age_restrictions %}
+                    <div class="row">
+                        <div class="col-md-4 name">
+                            Возрастные ограничения
+                        </div>
+                        <div class="col-md-8">
+                            {{ anime.age_restrictions }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if anime.duration %}
+                    <div class="row">
+                        <div class="col-md-4 name">
+                            Длительность
+                        </div>
+                        <div class="col-md-8">
+                            {{ anime.duration }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h4>Описание</h4>
+    </div>
+    <div class="row">
+        <p>{{ anime.description }}</p>
+    </div>
+    <div class="row">
+        <h4>Трейлер</h4>
+    </div>
+    <div class="row">
+        <div class="col">
+            <iframe class="video-item" src="{{ anime.trailer }}" frameborder="0"
+                    style="width: 306px; height: 172px;" allowfullscreen></iframe>
+            {#            <a href="{{ anime.trailer }}" class="video-item" ></a>#}
+        </div>
+    </div>
+    <div class="row">
+        <h4>Кадры</h4>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% for screen in anime.screens %}
+                <img src="{{ screen }}" alt="Not found" width="306" height="172">
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

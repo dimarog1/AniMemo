@@ -12,12 +12,12 @@
     <div class="justify-content-center justify-content-sm-start row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
         {% for anime in animes %}
             <div class="card">
-                <a href="{{ anime.animego }}">
+                <a href="{% url 'anime_info' anime.id %}">
                     <img src="{{ anime.poster }}" class="card-img-top" alt="Not found">
                 </a>
                 <div class="card-body">
                     <small class="text-black-50">{{ anime.english_title }}</small>
-                    <a href="{{ anime.animego }}">
+                    <a href="{% url 'anime_info' anime.id %}">
                         <p class="card-text text-left">{{ anime.russian_title }}</p>
                     </a>
                 </div>
