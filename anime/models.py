@@ -31,6 +31,16 @@ class Anime(models.Model):
         verbose_name_plural = 'Animes'
 
 
-class AnimeAdd(models.Model):
-    title = models.CharField('Title', max_length=50, default='')
-    source = models.CharField('Source', max_length=50, default='')
+class AnimePreview(models.Model):
+    russian_title = models.CharField('Russian itle', max_length=50, default='')
+    english_title = models.CharField('English title', max_length=50, default='')
+    poster = models.CharField('Poster ref', max_length=250, default='')
+    rating = models.FloatField('Rating')
+    animego = models.CharField('AnimeGo ref', max_length=250, default='')
+
+    def __str__(self):
+        return self.russian_title
+
+    class Meta:
+        verbose_name = 'AnimePreview'
+        verbose_name_plural = 'AnimesPreviews'

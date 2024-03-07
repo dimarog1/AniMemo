@@ -10,6 +10,8 @@ class AnimeGoParser:
         self.base_url = base_url
 
     def search_anime(self, name: str, first=False, search_ref='/search/anime?q='):
+        if not name:
+            return None
         response = pq(url=self.base_url + search_ref + name)
         animes = response('.animes-grid-item')
         if not animes:
@@ -89,3 +91,6 @@ class AnimeGoParser:
     def get_ref(self, anime: pq):
         ref = anime('.h5 a').attr('href')
         return ref
+
+
+api = AnimeGoParser()

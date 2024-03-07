@@ -1,0 +1,46 @@
+{% extends 'main/base_template.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block style_file %}{% static 'main/css/style_search_anime.css' %}{% endblock %}
+
+{% block content %}
+    <div class="lead">Название</div>
+    <form action="" method="GET">
+        <div class="input-group mb-3">
+            {#            {{ form.russian_title }}#}
+            <input type="text" name="q" id="animeInput" class="form-control" placeholder="Введите название аниме..."
+                   aria-describedby="button-addon2">
+            <input class="btn btn-outline-secondary" type="submit">
+        </div>
+    </form>
+    <div class="lead">Найденные аниме</div>
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+        {% if animes %}
+            {% for anime in animes %}
+                <div class="card">
+                    <a href="{{ anime.ref }}">
+                        <img src="{{ anime.poster }}" class="card-img-top" alt="Not found">
+                    </a>
+                    <div class="card-body">
+                        <small class="text-black-50">{{ anime.name }}</small>
+                        <a href="{{ anime.ref }}">
+                            <p class="card-text text-left">{{ anime.russian }}</p>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            Ничего не найдено!
+        {% endif %}
+        {#        <form action="">#}
+        {#            <div class="lead">Добавить источник</div>#}
+        {#            <div class="input-group mb-3">#}
+        {#                <input type="text" id="sourceInput" class="form-control" placeholder="Введите название аниме..."#}
+        {#                       aria-describedby="button-addon2">#}
+        {#            </div>#}
+        {#            <button type="button" class="btn btn-success">Добавить</button>#}
+        {#        </form>#}
+    </div>
+{% endblock %}
