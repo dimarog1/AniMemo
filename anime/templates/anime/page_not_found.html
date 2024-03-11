@@ -1,0 +1,19 @@
+{% extends 'anime/base_template.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block style_file %}{% endblock %}
+
+{% block content %}
+    <div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">404</h1>
+        <p class="fs-3"> <span class="text-danger">Уупс!</span> Страница не найдена.</p>
+        <p class="lead">
+            Данной страницы не существует.
+        </p>
+        <a href="index.html" class="btn btn-success">Вернуться</a>
+    </div>
+</div>
+{% endblock %}

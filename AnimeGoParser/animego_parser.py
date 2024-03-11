@@ -1,15 +1,16 @@
 import requests
 from pyquery import PyQuery as pq
+from urllib.parse import quote
 
-from anime.AnimeGoParser.anime import Anime
-from anime.AnimeGoParser.anime_preview import AnimePreview
+from AnimeGoParser.anime import Anime
+from AnimeGoParser.anime_preview import AnimePreview
 
 
 class AnimeGoParser:
     def __init__(self, base_url=r'https://animego.org'):
         self.base_url = base_url
 
-    def search_anime(self, name: str, first=False, search_ref='/search/anime?q='):
+    def search_anime_preview(self, name: str, first=False, search_ref='/search/anime?q='):
         if not name:
             return None
         response = pq(url=self.base_url + search_ref + name)
@@ -23,13 +24,14 @@ class AnimeGoParser:
         return res
 
     def get_preview_data(self, anime: pq):
-        params = (self.get_name, self.get_russian, self.get_poster, self.get_rating, self.get_ref)
+        params = (self.get_name_preview, self.get_russian_preview, self.get_poster_preview, self.get_rating_preview,
+                  self.get_ref_preview, self.get_ref_encoded_preview)
         return (param(anime) for param in params)
 
-    def get_anime_data(self, preview: AnimePreview):
-        if not preview or requests.get(preview.ref).status_code != 200:
+    def get_anime(self, url: str):
+        if not url or requests.get(url).status_code != 200:
             return None
-        page = pq(url=preview.ref)
+        page = pq(url=url)
         parsed_data = [data.text() for data in page('.anime-info .col-6').items()]
         anime_data = dict()
         for i in range(0, len(parsed_data), 2):
@@ -62,35 +64,65 @@ class AnimeGoParser:
                 duration = value
 
         description = page('.description').text()
+
         screens = [self.base_url + screen.attr('href') for screen in
                    page('.screenshots-block .screenshots-item').items()]
+
         trailer_html = page('.video-block .video-item')
-        trailer = {'href': trailer_html.attr('href'), 'data-original': trailer_html.attr('data-original')}
+        trailer = trailer_html.attr('href')
+        if trailer:
+            trailer_id = trailer.split('/')[-1]
+            if 'watch' in trailer_id:
+                trailer = 'https://youtube.com/embed/' + trailer_id.splint('=')[-1]
+            else:
+                trailer = 'https://youtube.com/embed/' + trailer_id
 
         poster = page('.anime-poster img').attr('srcset').split()[0]
 
-        return Anime(preview.name, preview.russian, preview.poster, preview.rating, preview.ref, poster, type_, episodes,
-                     status, genre, release, studio, age_restriction, duration, description, screens, trailer)
+        return Anime(self.get_name(page), self.get_russian(page), self.get_poster(page), self.get_rating(page), url,
+                     quote(url), poster, type_, episodes, status, genre, release, studio, age_restriction, duration,
+                     description, screens, trailer)
 
     def get_name(self, anime: pq):
-        name = anime('.text-gray-dark-6').text()
+        name = anime('.anime-title .list-unstyled').text().split()[1]
         return name
 
     def get_russian(self, anime: pq):
-        russian = anime('.h5').text()
+        russian = anime('.anime-title h1').text()
         return russian
 
     def get_poster(self, anime: pq):
-        poster = anime('.anime-grid-lazy').attr('data-original')
+        poster = anime('.anime-poster img').attr('srcset').split()[0]
         return poster
 
     def get_rating(self, anime: pq):
-        rating = anime('.p-rate-flag__text').text().replace(',', '.')
-        return float(rating)
+        rating = anime('.itemRatingBlock .rating-value').text()
+        return rating
 
-    def get_ref(self, anime: pq):
+    def get_name_preview(self, anime: pq):
+        name = anime('.text-gray-dark-6').text()
+        return name
+
+    def get_russian_preview(self, anime: pq):
+        russian = anime('.h5').text()
+        return russian
+
+    def get_poster_preview(self, anime: pq):
+        poster = anime('.anime-grid-lazy').attr('data-original')
+        return poster
+
+    def get_rating_preview(self, anime: pq):
+        rating = anime('.p-rate-flag__text').text().replace(',', '.')
+        return rating
+
+    def get_ref_preview(self, anime: pq):
         ref = anime('.h5 a').attr('href')
         return ref
+
+    def get_ref_encoded_preview(self, anime: pq):
+        ref = anime('.h5 a').attr('href')
+        ref_encoded = quote(ref)
+        return ref_encoded
 
 
 api = AnimeGoParser()

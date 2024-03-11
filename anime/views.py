@@ -1,23 +1,35 @@
 from django.shortcuts import render, redirect
-from .models import Anime, AnimePreview
+from .models import Anime
 from django.views.generic import DetailView
-from .forms import AnimePreviewForm
-from .AnimeGoParser.animego_parser import api
-from django.http import HttpResponseServerError
+from AnimeGoParser.animego_parser import api
+from django.http import HttpResponseServerError, Http404
+from urllib.parse import unquote
 
 
-def animes(request):
-    all_animes = Anime.objects.all()
+def index(request):
+    animes = Anime.objects.all()
     data = {
-        'animes': all_animes
+        'title': 'Библиотека',
+        'animes': animes
     }
-    return redirect('home')
+    return render(request, 'anime/index.html', data)
 
 
 class AnimeDetailView(DetailView):
     model = Anime
     template_name = 'anime/anime_info.html'
     context_object_name = 'anime'
+
+
+def anime_info(request, encoded_url):
+    anime = api.get_anime(unquote(encoded_url))
+    if not anime:
+        return render(request, 'anime/page_not_found.html', {'title': 'Not Found'})
+    data = {
+        'title': anime.russian,
+        'anime': anime
+    }
+    return render(request, 'anime/anime_info.html', data)
 
 
 def search_anime(request):
@@ -27,9 +39,9 @@ def search_anime(request):
     except Exception as e:
         print(e)
         return HttpResponseServerError
-    print(query)
-    animes = api.search_anime(query)
+    animes = api.search_anime_preview(query)
     data = {
-        'animes': animes
+        'animes': animes,
+        'query': query
     }
     return render(request, 'anime/search_anime.html', data)

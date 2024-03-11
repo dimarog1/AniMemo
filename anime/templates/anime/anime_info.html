@@ -1,15 +1,16 @@
-{% extends 'main/base_template.html' %}
+{% extends 'anime/base_template.html' %}
 {% load static %}
 
 {% block title %}{{ title }}{% endblock %}
 
-{% block style_file %}{% static 'main/css/style_anime_info.css' %}{% endblock %}
+{% block style_file %}{% static 'css/style_anime_info.css' %}{% endblock %}
 
 {% block content %}
     <div class="row" style="margin-bottom: 20px;">
         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-4 col-xs-4">
-            <img src="{{ anime.poster }}" width="250" height="350" alt="Not found" style="border: solid 2px #e0e0e0; border-radius: 5px">
-            <a href="{{ anime.animego }}" type="submit" class="btn btn-danger btn-block"
+            <img src="{{ anime.poster }}" width="250" height="350" alt="Not found"
+                 style="border: solid 2px #e0e0e0; border-radius: 5px">
+            <a href="{{ anime.ref }}" type="submit" class="btn btn-danger btn-block"
                style="width: 250px; margin-top: 5px; background-color: #fd5b56; border-color: #fd5b56;">AnimeGo</a>
             {% if anime.source %}
                 <a href="{{ anime.source }}" type="submit" class="btn btn-primary btn-block"
@@ -24,8 +25,8 @@
                 </div>
             </div>
             <div class="row">
-                <h2 id="animeName">{{ anime.russian_title }}</h2>
-                <label for="animeName">{{ anime.english_title }}</label>
+                <h2 id="animeName">{{ anime.russian }}</h2>
+                <label for="animeName">{{ anime.name }}</label>
             </div>
             <div class="info" style="margin-top: 20px;">
                 {% if anime.anime_type %}
@@ -34,7 +35,7 @@
                             Тип
                         </div>
                         <div class="col-md-8">
-                            {{ anime.anime_type }}
+                            {{ anime.type }}
                         </div>
                     </div>
                 {% endif %}
@@ -111,22 +112,25 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <h4>Описание</h4>
-    </div>
-    <div class="row">
-        <p>{{ anime.description }}</p>
-    </div>
-    <div class="row">
-        <h4>Трейлер</h4>
-    </div>
-    <div class="row">
-        <div class="col">
-            <iframe class="video-item" src="{{ anime.trailer }}" frameborder="0"
-                    style="width: 306px; height: 172px;" allowfullscreen></iframe>
-            {#            <a href="{{ anime.trailer }}" class="video-item" ></a>#}
+    {% if anime.description %}
+        <div class="row">
+            <h4>Описание</h4>
         </div>
-    </div>
+        <div class="row">
+            <p>{{ anime.description }}</p>
+        </div>
+    {% endif %}
+    {% if anime.trailer %}
+        <div class="row">
+            <h4>Трейлер</h4>
+        </div>
+        <div class="row">
+            <div class="col">
+                <iframe class="video-item" src="{{ anime.trailer }}" frameborder="0"
+                        style="width: 306px; height: 172px;" allowfullscreen></iframe>
+            </div>
+        </div>
+    {% endif %}
     <div class="row">
         <h4>Кадры</h4>
     </div>

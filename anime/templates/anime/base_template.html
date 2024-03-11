@@ -7,11 +7,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% block style_file %}{% endblock %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
 </head>
-<body>
+<body style="background-color: rgb(253, 253, 253);">
 
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-md">
@@ -26,15 +26,15 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Библиотека</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'add_anime' %}">Добавить аниме</a>
+                    <a class="nav-link active" aria-current="page" href="#">Добавить аниме</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="profile.html">Профиль</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search" action="{% url 'anime/search_anime' %}" method="GET">
-                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
-                <input class="btn btn-outline-success" type="submit" name="Поиск">
+            <form class="d-flex" role="search" action="{% url 'search_anime' %}" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Поиск" name="q" aria-label="Поиск">
+                <input class="btn btn-outline-success" type="submit" value="Поиск">
             </form>
         </div>
     </div>

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from anime.AnimeGoParser.anime_preview import AnimePreview
+from AnimeGoParser.anime_preview import AnimePreview
 
 
 @dataclass
@@ -16,7 +16,7 @@ class Anime(AnimePreview):
     duration: str
     description: str
     screens: list[str]
-    trailer: dict
+    trailer: str
 
     def copy(self, preview: AnimePreview):
         self.name = preview.name
@@ -24,3 +24,4 @@ class Anime(AnimePreview):
         self.poster = preview.poster
         self.rating = preview.rating
         self.ref = preview.ref
+        self.ref_encoded = preview.ref_encoded
