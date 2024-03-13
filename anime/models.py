@@ -1,46 +1,17 @@
 from django.db import models
 
 
-class Anime(models.Model):
-    russian_title = models.CharField('Russian title', max_length=50, default='')
-    english_title = models.CharField('English title', max_length=50, default='')
-    poster = models.CharField('Poster ref', max_length=250, default='')
-    rating = models.FloatField('Rating')
-    anime_type = models.CharField('Type', max_length=50, default='')
-    episodes = models.CharField('Episodes', max_length=10, default='')
-    status = models.CharField('Status', max_length=50, default='')
-    genre = models.CharField('Genre', max_length=50, default='')
-    release = models.CharField('Release', max_length=50, default='')
-    studio = models.CharField('Studio', max_length=50, default='')
-    age_restrictions = models.CharField('Age restrictions', max_length=10, default='')
-    duration = models.CharField('Duration', max_length=50, default='')
-    description = models.TextField('Description')
-    screens = models.JSONField('Screens')
-    trailer = models.CharField('Trailer', max_length=250, default='')
-    animego = models.CharField('AnimeGo ref', max_length=250, default='')
-    source = models.CharField('Source ref', max_length=250, default='')
+class AnimeModel(models.Model):
+    english_name = models.CharField('English name', max_length=250, default='', null=True)
+    russian_name = models.CharField('Russian name', max_length=250, default='', null=True)
+    poster = models.CharField('Poster url', max_length=250, default='', null=True)
+    rating = models.FloatField('Rating', null=True)
+    url = models.CharField('AnimeGo url', max_length=250, default='')
+    source = models.CharField('Source url', max_length=250, default='', null=True)
 
     def __str__(self):
-        return self.russian_title
-
-    # def get_absolute_url(self):
-    #     return f'/anime/{self.id}'
+        return self.russian_name
 
     class Meta:
-        verbose_name = 'Anime'
-        verbose_name_plural = 'Animes'
-
-
-class AnimePreview(models.Model):
-    russian_title = models.CharField('Russian itle', max_length=50, default='')
-    english_title = models.CharField('English title', max_length=50, default='')
-    poster = models.CharField('Poster ref', max_length=250, default='')
-    rating = models.FloatField('Rating')
-    animego = models.CharField('AnimeGo ref', max_length=250, default='')
-
-    def __str__(self):
-        return self.russian_title
-
-    class Meta:
-        verbose_name = 'AnimePreview'
-        verbose_name_plural = 'AnimesPreviews'
+        verbose_name = 'AnimeModel'
+        verbose_name_plural = 'AnimeModels'

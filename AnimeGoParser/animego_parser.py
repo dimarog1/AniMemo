@@ -73,7 +73,7 @@ class AnimeGoParser:
         if trailer:
             trailer_id = trailer.split('/')[-1]
             if 'watch' in trailer_id:
-                trailer = 'https://youtube.com/embed/' + trailer_id.splint('=')[-1]
+                trailer = 'https://youtube.com/embed/' + trailer_id.split('=')[-1]
             else:
                 trailer = 'https://youtube.com/embed/' + trailer_id
 
@@ -84,7 +84,7 @@ class AnimeGoParser:
                      description, screens, trailer)
 
     def get_name(self, anime: pq):
-        name = anime('.anime-title .list-unstyled').text().split()[1]
+        name = anime('.anime-title .list-unstyled').text().split('\n')[0]
         return name
 
     def get_russian(self, anime: pq):
@@ -96,8 +96,8 @@ class AnimeGoParser:
         return poster
 
     def get_rating(self, anime: pq):
-        rating = anime('.itemRatingBlock .rating-value').text()
-        return rating
+        rating = anime('.itemRatingBlock .rating-value').text().replace(',', '.')
+        return round(float(rating), 1)
 
     def get_name_preview(self, anime: pq):
         name = anime('.text-gray-dark-6').text()
@@ -113,7 +113,7 @@ class AnimeGoParser:
 
     def get_rating_preview(self, anime: pq):
         rating = anime('.p-rate-flag__text').text().replace(',', '.')
-        return rating
+        return round(float(rating), 1)
 
     def get_ref_preview(self, anime: pq):
         ref = anime('.h5 a').attr('href')

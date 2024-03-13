@@ -6,6 +6,6 @@ class AnimePreview:
     name: str
     russian: str
     poster: str
-    rating: str
+    rating: float
     ref: str
     ref_encoded: str

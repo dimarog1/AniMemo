@@ -10,11 +10,76 @@
         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-4 col-xs-4">
             <img src="{{ anime.poster }}" width="250" height="350" alt="Not found"
                  style="border: solid 2px #e0e0e0; border-radius: 5px">
-            <a href="{{ anime.ref }}" type="submit" class="btn btn-danger btn-block"
+            <a href="{{ anime.ref }}" type="submit" class="btn btn-danger btn-block non-modal"
                style="width: 250px; margin-top: 5px; background-color: #fd5b56; border-color: #fd5b56;">AnimeGo</a>
-            {% if anime.source %}
-                <a href="{{ anime.source }}" type="submit" class="btn btn-primary btn-block"
-                   style="width: 250px; margin-top: 5px; background-color: #247fff; border-color: #247fff">Источник</a>
+            {% if saved %}
+                {% if source %}
+                    <a href="{{ source }}" class="btn btn-primary btn-block"
+                       style="width: 250px; margin-top: 5px; background-color: #247fff; border-color: #247fff">Источник</a>
+                {% endif %}
+
+                <form action="{% url 'delete_anime' anime_id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#deleteAnimeModal"
+                            data-bs-whatever=""
+                            style="width: 250px; margin-top: 5px;">Удалить
+                    </button>
+
+                    <div class="modal fade" id="deleteAnimeModal" tabindex="-1" aria-labelledby="deleteAnimeModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteAnimeModalLabel">Удаление аниме</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Закрыть"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Вы действительно хотите удалить аниме <b>"{{ anime.russian }}"</b> из сохранённых?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть
+                                    </button>
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                <button style="width: 250px; margin-top: 5px;" type="button" class="btn btn-warning"
+                        data-bs-toggle="modal" data-bs-target="#addAnimeModal"
+                        data-bs-whatever="">Добавить
+                </button>
+
+                <div class="modal fade" id="addAnimeModal" tabindex="-1" aria-labelledby="deleteAnimeModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addAnimeModalLabel">Сохранить аниме</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Закрыть"></button>
+                            </div>
+                            <form method="POST" accept-charset="utf-8" action="{% url 'add_anime' anime.ref_encoded %}">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" id="recipient-name" name="source"
+                                               placeholder="Введите ссылку на источник...">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Закрыть
+                                    </button>
+                                    <button type="submit" class="btn btn-warning">Добавить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             {% endif %}
         </div>
         <div class="col-xl-9 col-lg-8 col-md-7 row-cols-sm-auto float-start">

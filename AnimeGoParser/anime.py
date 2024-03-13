@@ -17,11 +17,3 @@ class Anime(AnimePreview):
     description: str
     screens: list[str]
     trailer: str
-
-    def copy(self, preview: AnimePreview):
-        self.name = preview.name
-        self.russian = preview.russian
-        self.poster = preview.poster
-        self.rating = preview.rating
-        self.ref = preview.ref
-        self.ref_encoded = preview.ref_encoded
