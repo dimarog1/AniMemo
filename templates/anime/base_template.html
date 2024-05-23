@@ -26,10 +26,7 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Библиотека</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Добавить аниме</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Профиль</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">Профиль</a>
                 </li>
             </ul>
             <form class="d-flex" role="search" action="{% url 'search_anime' %}" method="GET">

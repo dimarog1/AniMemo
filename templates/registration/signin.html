@@ -1,0 +1,58 @@
+{% extends 'anime/base_template.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block style_file %}{% static 'css/style_login.css' %}{% endblock %}
+
+{% block content %}
+    <div class="col-md-4 col-md-offset-4" style="min-width: 350px;" id="login">
+        <section id="inner-wrapper" class="login text-center">
+            <article>
+                <p class="lead text-center">
+                    <strong>Вход</strong>
+                </p>
+                <form method="POST">
+                    {% csrf_token %}
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert-{{ message.tags }} rounded alert-dismissible text-center my-4 py-2"
+                                 role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% for error in form.errors %}
+                        <div class="alert-danger alert-dismissible rounded text-center my-4 py-2" role="alert">
+
+                            {% if error == 'password' %}
+                                {{ form.password.errors.0 }}
+{#                            {% elif error == 'email' %}#}
+{#                                {{ form.email.errors.0 }}#}
+{#                            {% elif error == 'phone_number' %}#}
+{#                                {{ form.phone_number.errors.0 }}#}
+                            {% elif error == 'username' %}
+                                {{ form.username.errors.0 }}
+                            {% endif %}
+
+                        </div>
+                    {% endfor %}
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Логин" name="username">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Пароль" name="password">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">Войти</button>
+                </form>
+            </article>
+        </section>
+    </div>
+{% endblock %}
