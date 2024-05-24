@@ -9,7 +9,7 @@
     <p class="lead">
         <strong>Ваша библиотека</strong>
     </p>
-    {% if animes %}
+    {% if user.is_authenticated %}
         <div class="justify-content-center justify-content-sm-start row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
             {% for anime in animes %}
                 <div class="card">

@@ -24,10 +24,10 @@ def anime_info(request, encoded_url):
 
     # Проверяем, есть ли это аниме в базе данных
     try:
-        anime_saved = AnimeModel.objects.get(url=url)
+        anime_saved = AnimeModel.objects.get(url=url, user_id=request.user.id)
         source = anime_saved.source
         anime_id = anime_saved.id
-        saved = True
+        saved = anime_saved.user_id == request.user.id
     except AnimeModel.DoesNotExist:
         source = None
         anime_id = None
@@ -37,14 +37,15 @@ def anime_info(request, encoded_url):
     anime = api.get_anime(url)
     if not anime:
         return render(request, 'anime/page_not_found.html', {'title': 'Not Found'})
+
     data = {
         'title': anime.russian,
         'saved': saved,
         'anime_id': anime_id,
         'anime': anime,
         'source': source,
-        'is_authenticated': request.user.is_authenticated,
     }
+
     return render(request, 'anime/anime_info.html', data)
 
 
@@ -74,7 +75,7 @@ def add_anime(request, encoded_url):
         print(e)
         return HttpResponseServerError
 
-    if AnimeModel.objects.filter(url=url).exists():
+    if AnimeModel.objects.filter(url=url, user_id=request.user.id).exists():
         return redirect('home')
 
     if not (source.startswith('https://') or source.startswith('http://')):

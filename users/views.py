@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import SignUpForm, SignInForm
+from .forms import SignUpForm, SignInForm, UserUpdateForm
 from django.contrib.auth import authenticate, login, logout
 from .models import User
 
@@ -41,4 +41,12 @@ def logout_(request):
 
 @login_required
 def profile(request):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
+        if form.validate_image() and (form.data.get('username') == request.user.get_username() or form.is_valid()):
+            form.save()
+            return render(request, 'users/profile.html')
+        else:
+            return render(request, 'users/profile.html', {'form': form})
+
     return render(request, 'users/profile.html')
