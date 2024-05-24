@@ -9,19 +9,25 @@
     <p class="lead">
         <strong>Ваша библиотека</strong>
     </p>
-    <div class="justify-content-center justify-content-sm-start row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-        {% for anime in animes %}
-            <div class="card">
-                <a href="{% url 'anime_info' anime.ref_encoded %}">
-                    <img src="{{ anime.poster }}" class="card-img-top" alt="Not found">
-                </a>
-                <div class="card-body">
-                    <small class="text-black-50">{{ anime.name }}</small>
+    {% if animes %}
+        <div class="justify-content-center justify-content-sm-start row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+            {% for anime in animes %}
+                <div class="card">
                     <a href="{% url 'anime_info' anime.ref_encoded %}">
-                        <p class="card-text text-left">{{ anime.russian }}</p>
+                        <img src="{{ anime.poster }}" class="card-img-top" alt="Not found">
                     </a>
+                    <div class="card-body">
+                        <small class="text-black-50">{{ anime.name }}</small>
+                        <a href="{% url 'anime_info' anime.ref_encoded %}">
+                            <p class="card-text text-left">{{ anime.russian }}</p>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning alert-dismissible rounded my-4 py-2" role="alert">
+            Для добавления аниме в библиотеку нужно зарегистрироваться!
+        </div>
+    {% endif %}
 {% endblock %}
