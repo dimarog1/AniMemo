@@ -2,3 +2,6 @@ db.sqlite3
 .venv
 .idea
 __pycache__
+media/images/*.jpg
+media/images/*.pjpg
+media/images/*.png
