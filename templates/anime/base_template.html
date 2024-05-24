@@ -25,9 +25,15 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Библиотека</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">Профиль</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">Профиль</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'signup' %}">Авторизоваться</a>
+                    </li>
+                {% endif %}
             </ul>
             <form class="d-flex" role="search" action="{% url 'search_anime' %}" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Поиск" name="q" aria-label="Поиск">

@@ -1,10 +1,10 @@
-from .models import AnimePreview
+from .models import AnimeModel
 from django.forms import ModelForm, TextInput, DateTimeInput, Textarea
 
 
 class AnimePreviewForm(ModelForm):
     class Meta:
-        model = AnimePreview
+        model = AnimeModel
         fields = ['russian_title']
 
         widgets = {

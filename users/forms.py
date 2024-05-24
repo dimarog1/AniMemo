@@ -22,26 +22,14 @@ class SignUpForm(forms.ModelForm):
 
 
 class SignInForm(forms.ModelForm):
+    username = forms.CharField(max_length=30)
+
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['password']
 
-    def validate_username(self):
-        username = self.data['username']
-        if not User.objects.filter(username=username).exists():
-            raise ValidationError('Пользователя с таким именем не существует!')
-        return username
-
-    def clean_username(self):
+    def clean_username(self) -> str:
         username = self.cleaned_data['username']
-        x = User.objects.all()
-        for elem in x:
-            print(elem.username, elem.password)
         if not User.objects.filter(username=username).exists():
             raise ValidationError('Пользователя с таким именем не существует!')
         return username
-
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        validate_password(password)
-        return password
