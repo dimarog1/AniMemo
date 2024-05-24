@@ -4,6 +4,7 @@ from users.models import User
 
 class AnimeModel(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user_id = models.IntegerField('User id', null=False)
     english_name = models.CharField('English name', max_length=250, default='', null=True)
     russian_name = models.CharField('Russian name', max_length=250, default='', null=True)
     poster = models.CharField('Poster url', max_length=250, default='', null=True)

@@ -8,13 +8,13 @@ from urllib.parse import unquote, quote
 
 
 def index(request):
-    animes_saved = AnimeModel.objects.all()
+    animes_saved = AnimeModel.objects.filter(user_id=request.user.id)
     animes = [AnimePreview(anime_saved.english_name, anime_saved.russian_name, anime_saved.poster, anime_saved.rating,
                            anime_saved.url, quote(anime_saved.url)) for anime_saved in animes_saved]
 
     data = {
         'title': 'Библиотека',
-        'animes': animes
+        'animes': animes if animes else None
     }
     return render(request, 'anime/index.html', data)
 
@@ -42,7 +42,8 @@ def anime_info(request, encoded_url):
         'saved': saved,
         'anime_id': anime_id,
         'anime': anime,
-        'source': source
+        'source': source,
+        'is_authenticated': request.user.is_authenticated,
     }
     return render(request, 'anime/anime_info.html', data)
 
@@ -78,7 +79,7 @@ def add_anime(request, encoded_url):
 
     if not (source.startswith('https://') or source.startswith('http://')):
         source = None
-    anime = AnimeModel(english_name=anime.name, russian_name=anime.russian, poster=anime.poster, rating=anime.rating,
+    anime = AnimeModel(user_id=request.user.id, english_name=anime.name, russian_name=anime.russian, poster=anime.poster, rating=anime.rating,
                        url=url, source=source)
     anime.save()
     return redirect('home')

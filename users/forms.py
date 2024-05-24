@@ -26,8 +26,17 @@ class SignInForm(forms.ModelForm):
         model = User
         fields = ['username', 'password']
 
+    def validate_username(self):
+        username = self.data['username']
+        if not User.objects.filter(username=username).exists():
+            raise ValidationError('Пользователя с таким именем не существует!')
+        return username
+
     def clean_username(self):
         username = self.cleaned_data['username']
+        x = User.objects.all()
+        for elem in x:
+            print(elem.username, elem.password)
         if not User.objects.filter(username=username).exists():
             raise ValidationError('Пользователя с таким именем не существует!')
         return username

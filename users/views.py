@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm, SignInForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from .models import User
 
 
 def signup(request):
@@ -10,12 +11,9 @@ def signup(request):
         form = SignUpForm(request.POST)
         print(form.errors)
         if form.is_valid():
-            user = authenticate(request, username=form.cleaned_data.get('username'),
-                                password=form.cleaned_data.get('password'))
+            user = User.objects.create_user(username=form.cleaned_data.get('username'),
+                                            password=form.cleaned_data.get('password'))
             messages.success(request, 'Пользователь зарегистрирован')
-            if user is not None:
-                messages.error(request, 'Пользователь с таким именем уже существует!')
-                return render(request, 'registration/signup.html', {'form': form})
             return redirect('signin')
         else:
             messages.error(request, 'Что-то пошло не так')
@@ -25,13 +23,11 @@ def signup(request):
 def signin(request):
     if request.method == 'POST':
         form = SignInForm(request.POST)
-        print(form.errors)
-        if form.is_valid():
-            user = authenticate(request, username=form.cleaned_data.get('username'),
-                                password=form.cleaned_data.get('password'))
+        if form.validate_username():
+            user = authenticate(username=form.data.get('username'),
+                                password=form.data.get('password'))
             if user is not None:
-                login(user)
-                messages.success(request, 'Пользователь залогинен')
+                login(request, user)
                 return redirect('home')
             else:
                 messages.error(request, 'Неверный логин или пароль')
@@ -41,12 +37,16 @@ def signin(request):
     return render(request, 'registration/signin.html')
 
 
-def logout(request):
-    pass
+def logout_(request):
+    logout(request)
+    return redirect('home')
 
 
 def profile(request):
     if request.user.is_authenticated:
-        return render(request, 'users/profile.html')
+        data = {
+            'username': request.user.username
+        }
+        return render(request, 'users/profile.html', data)
 
     return redirect('signup')

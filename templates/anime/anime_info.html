@@ -48,10 +48,12 @@
                     </div>
                 </form>
             {% else %}
-                <button style="width: 250px; margin-top: 5px;" type="button" class="btn btn-warning"
+                {% if is_authenticated %}
+                    <button style="width: 250px; margin-top: 5px;" type="button" class="btn btn-warning"
                         data-bs-toggle="modal" data-bs-target="#addAnimeModal"
                         data-bs-whatever="">Добавить
-                </button>
+                    </button>
+                {% endif %}
 
                 <div class="modal fade" id="addAnimeModal" tabindex="-1" aria-labelledby="deleteAnimeModalLabel"
                      aria-hidden="true">

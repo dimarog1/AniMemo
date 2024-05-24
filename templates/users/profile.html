@@ -14,36 +14,41 @@
                         <div class="form-group">
                             <label for="loginInput" class="form-label">Логин</label>
                             <div class="input-group" id="loginInput">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" value="{{ username }}">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="emailInput" class="form-label">Электронная почта</label>
-                            <div class="input-group" id="emailInput">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="cityInput" class="form-label">Город</label>
-                            <div class="input-group" id="cityInput">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{#                <div class="row">#}
+{#                    <div class="col">#}
+{#                        <div class="form-group">#}
+{#                            <label for="emailInput" class="form-label">Электронная почта</label>#}
+{#                            <div class="input-group" id="emailInput">#}
+{#                                <input type="text" class="form-control">#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                    <div class="col">#}
+{#                        <div class="form-group">#}
+{#                            <label for="cityInput" class="form-label">Город</label>#}
+{#                            <div class="input-group" id="cityInput">#}
+{#                                <input type="text" class="form-control">#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
                 <div class="row" style="margin-top: 10px">
                     <div class="col">
                         <div class="form-group">
                             <button type="submit" class="btn btn-success btn-block">Обновить</button>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" style="margin-top: 10px;">
+                        <a href="{% url 'signout' %}" class="btn btn-danger btn-block">Выйти</a>
                     </div>
                 </div>
             </div>
