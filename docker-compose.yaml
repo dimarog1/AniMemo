@@ -10,15 +10,13 @@ services:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
       ports:
-        - "5432:5432"
+        - "6432:5432"
       networks:
         - network
 
     animemo-app:
       build: .
       container_name: animemo-app
-#      command: >
-#        sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
       volumes:
         - .:/app
       ports:
