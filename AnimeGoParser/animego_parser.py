@@ -24,8 +24,12 @@ class AnimeGoParser:
         return res
 
     def get_preview_data(self, anime: pq):
-        params = (self.get_name_preview, self.get_russian_preview, self.get_poster_preview, self.get_rating_preview,
-                  self.get_ref_preview, self.get_ref_encoded_preview)
+        params = (self.get_name_preview,
+                  self.get_russian_preview,
+                  self.get_poster_preview,
+                  self.get_rating_preview,
+                  self.get_ref_preview,
+                  self.get_ref_encoded_preview)
         return (param(anime) for param in params)
 
     def get_anime(self, url: str):

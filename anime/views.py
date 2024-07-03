@@ -57,7 +57,7 @@ def search_anime(request):
         print(e)
         return HttpResponseServerError
 
-    animes = api.search_anime_preview(query)
+    animes = api.search_anime_preview(str(query))
     data = {
         'animes': animes,
         'query': query
