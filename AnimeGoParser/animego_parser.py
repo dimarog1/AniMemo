@@ -117,7 +117,13 @@ class AnimeGoParser:
 
     def get_rating_preview(self, anime: pq):
         rating = anime('.p-rate-flag__text').text().replace(',', '.')
-        return round(float(rating), 1)
+        try:
+            rating = round(float(rating), 1)
+        except ValueError as e:
+            print(e)
+            print(rating)
+            return 0
+        return rating
 
     def get_ref_preview(self, anime: pq):
         ref = anime('.h5 a').attr('href')
